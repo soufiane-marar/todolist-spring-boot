@@ -24,10 +24,12 @@ public class Todo {
     )
     private Long id;
     private String description;
-    private boolean isFinished;
-    private Date createdAt;
+
+    private boolean isFinished = false;
+    private Date createdAt = new Date();
 
     @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "created_by")
     private User createdBy;
 
     public Todo() {
