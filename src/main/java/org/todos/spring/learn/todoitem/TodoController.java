@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,8 @@ public class TodoController {
     }
 
     @GetMapping(path = "todos")
-    public List<Todo> getTodoList() {
-        return todoService.getTodoList();
+    public List<Todo> getTodoList(Principal connectedUser) {
+        return todoService.getTodoList(connectedUser);
     }
 
     @PostMapping(path = "todo")

@@ -3,13 +3,16 @@ package org.todos.spring.learn.todoitem;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.todos.spring.learn.user.User;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
 public class TodoService {
+
 
     private final TodoRepository todoRepository;
 
@@ -18,9 +21,9 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public List<Todo> getTodoList() {
-
-        return todoRepository.findAll();
+    public List<Todo> getTodoList(Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return todoRepository.findByCreatedBy(user);
     }
 
     public void addNewTodo(Todo todo) {
